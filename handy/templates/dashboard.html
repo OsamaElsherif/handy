@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+    {% block content %}
+        <h1>Dashboard {% if route == 'Accepted' %}| Accepted {% elif route == 'Rejected' %}| Rejected {% elif route == 'Reviews' %}| {% if current_user.account_type == 'Client' %} Your Reviews {% else %} Clients Reviews {% endif %} {% elif route == 'Finished' %}| Finished {% elif route == 'Notification' %}| Notifications {% endif %}</h1>
+        {% if current_user.account_type != 'Client' %}
+            {% block dashboard %}{% endblock %}
+        {% else %}
+            {% block ClientDashboard %}{% endblock %}
+        {% endif %}
+    {% endblock content %}
+    {% block sidebar %}
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3>Tools</h3>
+              <p class='text-muted'>
+                <ul class="list-group"> Important tools that will help you for your success
+                  <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Accepted' ) }}">Accepted Jops</a></li>
+                  <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Rejected' ) }}">Rejected Jops</a></li>
+                  <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Notification' ) }}">Notifications</a></li>
+                  {% if current_user.account_type != 'Client' %}
+                    <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Reviews') }}">Client Reviews</a></li>
+                  {% else %}
+                    <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Finished') }}">Finished Jops</a></li>
+                    <li class="list-group-item list-group-item-light"><a href="{{ url_for('dashboard_route', route='Reviews') }}">Your Reviews</a></li>
+                  {% endif %}
+                </ul>
+              </p>
+            </div>
+          </div>
+    {% endblock sidebar %}

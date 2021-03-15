@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ hire.firstname }} {{ hire.lastname }}</a>
+                    <small class="text-muted">online</small>
+                </div>
+                {% if hire.rate <= 2.5 %}
+                    <h2 class="account-heading">{{ hire.firstname }} {{ hire.lastname }} | {{ hire.major }}</h2>
+                    <p class="text-secondary">{{ hire.email }} | His rate is : <span style='color: red;'> {{ hire.rate }} </span></p>
+                {% else %}
+                    <p class="text-secondary">{{ hire.email }} | His rate is : <span style='color: green;'> {{ hire.rate }} </span></p>
+                {% endif %}
+                <p class="text-secondary">{{ hire.description }}</p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-outline-dark pl-4 pr-4") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+{% endblock content %}

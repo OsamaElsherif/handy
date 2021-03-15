@@ -1,0 +1,215 @@
+{% extends "dashboard.html" %}
+    <!-- worker dashboard -->
+    {% block dashboard %}
+        {% if route == 'General' %}
+                <p class="text-muted"> Here in the Dashboard, you will have more accessibility to tools that will help you to success, 
+                    there will be more tools that will be availble soon, but right now there is three main tools : 
+                        <ul class="list-group"> 
+                        <li class="list-group-item"><a href=" {{ url_for('dashboard_route', route='Accepted' ) }} ">Accepted Jops</a></li>
+                        <p class="text-muted m-1">this tool will help you just to focus on the accepted jops, which will provide you more data about the client and the jop details, and will give you communication data to the client.</p>
+                        <li class="list-group-item"><a href=" {{ url_for('dashboard_route', route='Rejected') }} ">Rejected Jops</a></li>
+                        <p class="text-muted m-1">this tool will give you a list of rejected jops, which will make you have the ability to know them and to review the reasons which will help you in the next times.</p>
+                        <li class="list-group-item"><a href="{{ url_for('dashboard_route', route='Reviews') }}">Client Reviews</a></li>
+                        <p class="text-muted m-1">This tool will show you the reviews from clients that thier jops has been finished.</p>
+                        </ul>
+                    <span class="text-muted">and soon there will be more features that will help you to get your jop easy, efficent and fast, such as online payment methods, relatable handicrafts stores, and success statictics, which will be provided very soon.</span>
+                    </p>
+                {% elif route == 'Accepted' %}
+                    {% for jop in current_user.jops %}
+                        {% if jop.status == 'Accepted' %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <a class="mr-2" href="{{ url_for('MyJops', jop_id=jop.id) }}">{{ jop.jop.title }}</a>
+                                    </div>
+                                    <h2>This jop was provided by {{ jop.jop.author.firstname }} {{ jop.jop.author.lastname }}</h2>
+                                    <legend> {{ jop.jop.author.firstname }}'s contact information : </legend>
+                                    <p class="text-muted">
+                                        Email : <a href="#">{{ jop.jop.author.email }}</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Phone Numper : <a href="#">+2001550414880</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Address : <a href="#">Sohag Government - Akhmim</a>
+                                    </p>
+                                </div>
+                            </article>
+                        {% endif %}
+                        {% endfor %}
+                {% elif route == 'Reviews' %}
+                    {% for review in Reviews.query.filter_by(worker_id=current_user.id) %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <p class="text-muted">{{ review.author.firstname }} {{ review.author.lastname  }} rated you  with {{ review.rate }} </p>
+                                    </div>
+                                    <h2> He reviewed you by saying that : </h2>
+                                    <p class="text-muted">{{ review.Review }}</p>
+                                </div>
+                            </article>
+                    {% endfor %}
+                {% elif route == 'Notification' %}
+                    {% for jop in current_user.jops %}
+                    {% if jop.status == 'Not revised' %}
+                        <article class="media content-section" {% if jop.status == 'Rejected' %} style="opacity:0.5" {% endif %}>
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2" href="{{ url_for('MyJops', jop_id=jop.id) }}">{{ jop.jop.title }}</a>| <span {% if jop.status == 'Rejected' %} style="color:red;" {% elif jop.status == 'Accepted' %} style="color:green;" {% else %} style="color:#2e2e2e;" {% endif %} >{{ jop.status }}</span>
+                                </div>
+                                <h2>This jop was provided by {{ jop.jop.author.firstname }} {{ jop.jop.author.lastname }}</h2>
+                            </div>
+                        </article>
+                    {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for jop in current_user.jops %}
+                        {% if jop.status == 'Rejected' %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <a class="mr-2" href="{{ url_for('MyJops', jop_id=jop.id) }}">{{ jop.jop.title }}</a>
+                                    </div>
+                                    <h2>This jop was provided by {{ jop.jop.author.firstname }} {{ jop.jop.author.lastname }}</h2>
+                                </div>
+                            </article>
+                        {% endif %}
+                        {% endfor %}
+                {% endif %}
+    {% endblock dashboard %}
+
+    <!-- client dashboard -->
+    {% block ClientDashboard %}
+        {% if route == 'General' %}
+                <p class="text-muted"> Here in the Dashboard, you will have more accessibility to tools that will help you to success, 
+                    there will be more tools that will be availble soon, but right now there is three main tools : 
+                        <ul class="list-group"> 
+                        <li class="list-group-item"><a href=" {{ url_for('dashboard_route', route='Accepted' ) }} ">Accepted Jops</a></li>
+                        <p class="text-muted m-1">this tool will help you just to focus on the accepted jops, which will provide you more data about the client and the jop details, and will give you communication data to the client.</p>
+                        <li class="list-group-item"><a href=" {{ url_for('dashboard_route', route='Rejected') }} ">Rejected Jops</a></li>
+                        <p class="text-muted m-1">this tool will give you a list of rejected jops, which will make you have the ability to know them and to review the reasons which will help you in the next times.</p>
+                        <li class="list-group-item"><a href="{{ url_for('dashboard_route', route='Reviews') }}">Client Reviews</a></li>
+                        <p class="text-muted m-1">This tool will show you the reviews from clients that thier jops has been finished.</p>
+                        </ul>
+                    <span class="text-muted">and soon there will be more features that will help you to get your jop easy, efficent and fast, such as online payment methods, relatable handicrafts stores, and success statictics, which will be provided very soon.</span>
+                    </p>
+                {% elif route == 'Accepted' %}
+                    {% for post in current_user.posts %}
+                    {% for jop in post.jops %}
+                        {% if jop.status == 'Accepted' %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <a class="mr-2" href="#">{{ jop.jop.title }}</a>
+                                    </div>
+                                    <h2>This Jop was hired for {{ jop.author.firstname }} {{ jop.author.lastname }}</h2>
+                                    <legend> {{ jop.author.firstname }}'s contact information : </legend>
+                                    <p class="text-muted">
+                                        Email : <a href="#">{{ jop.author.email }}</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Phone Numper : <a href="#">+20{{ jop.author.phone }}</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Address : <a href="#">{{ jop.author.city }} Government - {{ jop.author.state}}</a>
+                                    </p>
+                                    <form action="/account/dashboard/Accepted" method="POST">
+                                        <div class="text-left needs-validation" novalidate>
+                                            <input type="hidden" name="jop_id" value="{{ jop.id }}">
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <label for="Rate" class="form-label">Rate : <output id='r' for='Rate' name='r'>2.5</output></label> <br>
+                                            <input type="range" class="form-range" oninput="r.value=Rate.value" name="Rate" min='0' max='5' step="0.5" val=2.5 id='Rate'> <br>
+                                            <label for="review" class="form-label">Review</label>
+                                            <div class="input-group has-validation">
+                                                <textarea name="review" id="review" cols="30" rows="5" class="form-control" required></textarea>
+                                                <div class="invalid-feedback">
+                                                    Must to put a review for the service
+                                                </div>
+                                            </div> <br>
+                                        </div>
+                                        <div class="text-left">
+                                            <input type="submit" class="btn btn-outline-dark pl-4 pr-4" value="Finished">
+                                        </div>
+                                    </form>
+                                </div>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                {% elif route == 'Reviews' %}
+                    {% for review in current_user.reviews %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <p class="text-muted">you rated {{ User.query.get(review.worker_id).firstname }} {{ User.query.get(review.worker_id).lastname }} with {{ review.rate }} </p>
+                                    </div>
+                                    <h2> You reviewd him by saying that : </h2>
+                                    <p class="text-muted">{{ review.Review }}</p>
+                                </div>
+                            </article>
+                    {% endfor %}
+                {% elif route == 'Finished' %}
+                    {% for post in current_user.posts %}
+                    {% for jop in post.jops %}
+                        {% if jop.status == 'Finished' %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <a class="mr-2" href="#">{{ jop.jop.title }}</a>
+                                    </div>
+                                    <h2>This Jop was hired for {{ jop.author.firstname }} {{ jop.author.lastname }}</h2>
+                                    <legend> {{ jop.author.firstname }}'s contact information : </legend>
+                                    <p class="text-muted">
+                                        Email : <a href="#">{{ jop.author.email }}</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Phone Numper : <a href="#">+2001550414880</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Address : <a href="#">Sohag Government - Akhmim</a>
+                                    </p>
+                                </div>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                {% elif route == 'Notification' %}
+                    {% for post in current_user.posts %}
+                    {% if AppliedJop.query.filter_by(status="Not revised", post_id=post.id).all()|length > 0 %}
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2" href="{{ url_for('Request', post_id=post.id) }}">{{ post.title }}</a>
+                                </div>
+                                <h2>{{ AppliedJop.query.filter_by(status="Not revised", post_id=post.id).all()|length }} Has Applied for your jop </h2>
+                            </div>
+                        </article>
+                    {% endif %}
+                    {% endfor %}  
+                {% else %}
+                    {% for post in current_user.posts %}
+                    {% for jop in post.jops %}
+                        {% if jop.status == 'Rejected' %}
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <div class="article-metadata">
+                                        <a class="mr-2" href="#">{{ jop.jop.title }}</a>
+                                    </div>
+                                    <h2>This Jop was hired for {{ jop.author.firstname }} {{ jop.author.lastname }}</h2>
+                                    <legend> {{ jop.author.firstname }}'s contact information : </legend>
+                                    <p class="text-muted">
+                                        Email : <a href="#">{{ jop.author.email }}</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Phone Numper : <a href="#">+2001550414880</a>
+                                    </p>
+                                    <p class="text-muted">
+                                        Address : <a href="#">Sohag Government - Akhmim</a>
+                                    </p>
+                                </div>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                {% endif %}
+    {% endblock ClientDashboard %}

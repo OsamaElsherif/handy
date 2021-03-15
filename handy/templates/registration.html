@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+    {% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join to Handy</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.firstname.label(class="form-control-label") }}
+                        {% if form.firstname.errors %}
+                            {{ form.firstname(class="form-control form-control-lg is-invalid", placeholder="Maikel") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.firstname.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.firstname(class="form-control form-control-lg", placeholder="Maikel") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.lastname.label(class="form-control-label") }}
+                        {% if form.lastname.errors %}
+                            {{ form.lastname(class="form-control form-control-lg is-invalid", placeholder="John") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.lastname.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.lastname(class="form-control form-control-lg", placeholder="John") }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid", placeholder="MaikelJohn2332") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg", placeholder="MaikelJohn2332") }}
+                        {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                            {{ form.email(class="form-control form-control-lg is-invalid", placeholder="email@domain.com") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class="form-control form-control-lg", placeholder="email@domain.com") }}
+                        {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.phone.label(class="form-control-label") }}
+                    {% if form.phone.errors %}
+                            {{ form.phone(class="form-control form-control-lg is-invalid", placeholder="Ex: +201223123120") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.phone.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone(class="form-control form-control-lg", placeholder="Ex: +201223123120") }}
+                        {% endif %}
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.city.label(class="form-control-label") }}
+                        {% if form.city.errors %}
+                            {{ form.city(class="form-control form-control-lg is-invalid", placeholder="Cairo") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.city.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.city(class="form-control form-control-lg", placeholder="Cairo") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.state.label(class="form-control-label") }}
+                        {% if form.state.errors %}
+                            {{ form.state(class="form-control form-control-lg is-invalid", placeholder="Giza") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.state.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.state(class="form-control form-control-lg", placeholder="Giza") }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.password.label(class="form-control-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.confirm_password.label(class="form-control-label") }}
+                        {% if form.confirm_password.errors %}
+                            {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_password.errors %}
+                                    <span> {{ error }} </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.confirm_password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-check form-check-inline">
+                    {{ form.usertype(class="form-check-input list-unstyled") }}
+                </div>
+            </fieldset>
+            <div class="form-group text-center">
+                {{ form.submit(class="btn btn-outline-dark pl-4 pr-4") }}
+            </div>
+        </form>
+    </div>
+    <div class="border-top pt-3 pb-5">
+        <small class="text-muted">
+            Already have an account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+        </small>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+    {% block content %}
+        <div class="content-section">
+            {% if action == "Request" %}
+                <form method="POST" action="/request/new/Request">
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Make Request</legend>
+                        <div class="text-left needs-validation" novalidate>
+                            <div class="form-group has-validation">
+                                <div class="form-group">
+                                    <label for="JopTitle"> Jop Title </label>
+                                    <input type="text" name="JopTitle" id="JopTitle" class="form-control form-control-lg" required>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Required field
+                                </div>
+                            </div>
+                            <div class="form-group has-validation">
+                                <label for="JopDesc"> Jop Description</label> <br>
+                                <textarea name="JopDesc" id="JopDesc" cols="30" rows="5" class="form-control form-control-lg" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Required field
+                                    </div>
+                            </div> <br>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" class="btn btn-outline-dark pl-4 pr-4" value="Make Required">
+                        </div>
+                    </fieldset>
+                </form>
+            {% else %}
+                <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Make Request</legend>
+                            <div class="form-group">
+                                {{ form.jop_title.label(class="form-control-label") }}
+                                {% if form.jop_title.errors %}
+                                    {{ form.jop_title(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jop_title.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.jop_title(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.jop_major.label(class="form-control-label") }}
+                                {% if form.jop_major.errors %}
+                                    {{ form.jop_major(class="form-control form-control-lg is-invalid", value=major) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jop_major.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.jop_major(class="form-control form-control-lg", value=major) }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.jop_description.label(class="form-control-label") }}
+                                {% if form.jop_description.errors %}
+                                    {{ form.jop_description(class="form-control form-control-lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jop_description.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.jop_description(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <div class="text-center">
+                            {{ form.submit(class="btn btn-outline-dark pl-4 pr-4") }}
+                        </div>
+                    </form>
+            {% endif %}
+        </div>
+    {% endblock content %}

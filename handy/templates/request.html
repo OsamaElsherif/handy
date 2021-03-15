@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+    {% block content %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ request.author.firstname }} {{ request.author.lastname }}</a>
+                    <small class="text-muted">online</small>
+                </div>
+                <h2 class="article-title">{{ request.title }}</h2>
+                <p class="article-content">{{ request.content }}</p>
+            </div>
+        </article>
+        {% if current_user.account_type == 'Client' %}
+            {% for post in current_user.posts %}
+                {% if post.id == request.id %}
+                    {% for jop in post.jops %}
+                        {% if jop.status == 'Not revised' %}
+                        <legend> Notifications </legend>
+                            <article class="media content-section">
+                                <div class="media-body">
+                                    <h2>{{ jop.author.firstname }} {{ jop.author.lastname }} applied to the jop</h2>
+                                </div>
+                                <form action="/request/{{ request.id }}" method="POST">
+                                    <input type="hidden" name="id" value="{{ jop.author.id }}">
+                                    <input type="hidden" name="email" value="{{ jop.author.email }}">
+                                    <input type="submit" name="result" value="Accepted" class="btn btn-outline-success pl-4 pr-4">
+                                    <input type="submit" name="result" value="Rejected" class="btn btn-outline-danger pl-4 pr-4">
+                                </form>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {%else%}
+            <!-- Apply for jop form -->
+            <div class="content-section">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Apply for Jop</legend>
+                        <div class="form-group">
+                            {{ form.firstname.label(class="form-control-label") }}
+                            {% if form.firstname.errors %}
+                                {{ form.firstname(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.firstname.errors %}
+                                    <span> {{ error }} </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.firstname(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.lastname.label(class="form-control-label") }}
+                            {% if form.lastname.errors %}
+                                {{ form.lastname(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.lastname.errors %}
+                                    <span> {{ error }} </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.lastname(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label(class="form-control-label") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                    <span> {{ error }} </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <div class="form-group text-center">
+                        {{ form.submit(class="btn btn-outline-dark pl-4 pr-4") }}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    {% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "dashboard.html" %}
+    {% block dashboard %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ jop.jop.author.firstname }} {{ jop.jop.author.lastname }}</a>
+                    <small class="text-muted">online</small>
+                </div>
+                <h2 class="article-title">{{ jop.jop.title }}</h2>
+            <p class="article-content" style="{% if jop.status != 'Accepted' %} color:#2e2e2e; {% else %} color:green; {% endif %}">{% if jop.status == 'Accepted' %} On Progress {% else %} Finished {% endif %}</p>
+                 <legend> {{ jop.jop.author.firstname }}'s contact information : </legend>
+                 <p class="text-muted"> Email : <a href="#">{{ jop.jop.author.email }}</a></p>
+                 <p class="text-muted">Phone Numper : <a href="#">+2001550414880</a></p>
+                 <p class="text-muted">Address : <a href="#">Sohag Government - Akhmim</a></p>
+            </div>
+        </article>
+    {% endblock dashboard %}
